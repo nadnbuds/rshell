@@ -1,16 +1,25 @@
 #include<iostream>
 #include<vector>
+#include<map>
 #include "RshellReader.h"
 
 using namespace std;
 
 class RshellManager{
+    
+    enum BashCommands{
+        nodef,
+        close,
+    };
+    
     public:
         RshellManager(){
+            mapStringToBash["Exit"] = close;
             StartShell();
         }
     
     private:
+        map<string, BashCommands> mapStringToBash;
         bool stop;
         RshellReader Reader;
         void StartShell(){
@@ -25,8 +34,8 @@ class RshellManager{
                 
                 //Implement Str2Int or enum
                 //http://www.codeguru.com/cpp/cpp/cpp_mfc/article.php/c4067/Switch-on-Strings-in-C.htm
-                switch(Commands){
-                    case Commands.at(0).equals("Exit"):
+                switch(mapStringToBash[Commands.at(0)]){
+                    case close:
                         stop = true;
                         break;
                     default:
@@ -35,3 +44,7 @@ class RshellManager{
             }
         }
 };
+
+int main(){
+    
+}
