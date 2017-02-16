@@ -10,6 +10,7 @@ class RshellReader{
         string Input;
         static const char spaceCheck = ' ';
         static const char semiCheck = ';';
+        static const char hashCheck = '#';
     public:
 
     vector<string> Commands;
@@ -36,6 +37,9 @@ class RshellReader{
                 x = 0;
                 Commands.push_back(temp);
                 Commands.push_back(";");
+            }
+            if(Input.at(x) == hashCheck){
+                return;
             }
         }
         Commands.push_back(Input);
