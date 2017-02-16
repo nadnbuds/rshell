@@ -2,49 +2,77 @@
 #include<vector>
 #include<map>
 #include "RshellReader.h"
+#include "RshellExecuter.h"
 
 using namespace std;
 
 class RshellManager{
     
-    enum BashCommands{
-        nodef,
-        close,
-    };
-    
     public:
         RshellManager(){
-            mapStringToBash["Exit"] = close;
-            StartShell();
+            RunShell();
         }
     
     private:
-        map<string, BashCommands> mapStringToBash;
         bool stop;
+        bool lastCmdWorked;
+        string mode;
         RshellReader Reader;
-        void StartShell(){
+        RshellExecuter Executer;
+        vector<string> currentCommand;
+        
+        void RunShell(){
             while(!stop){
                 Reader.ReadLine();
-                Interpret(Reader.GetInputCommands());
+                Interpret(Reader.Commands);
             }
         }
         
         void Interpret(vector<string> Commands){
+            currentCommand.clear();
             while(Commands.size() > 0){
-                
-                //Implement Str2Int or enum
-                //http://www.codeguru.com/cpp/cpp/cpp_mfc/article.php/c4067/Switch-on-Strings-in-C.htm
-                switch(mapStringToBash[Commands.at(0)]){
-                    case close:
-                        stop = true;
-                        break;
-                    default:
-                        break;
+                if(Commands.at(0) == ";" || Commands.at(0) == "&&" || Commands.at(0) == "||"){
+                    mode = Commands.at(0);
+                    if(DetermineRun())
+                        lastCmdWorked = Executer.RunCommand(currentCommand);
+                    pop_front(Commands);
+                    currentCommand.clear();
                 }
+                currentCommand.push_back(Commands.at(0));
+                pop_front(Commands);
             }
+            if(DetermineRun())
+                lastCmdWorked = Executer.RunCommand(currentCommand);
+        }
+        
+        bool DetermineRun(){
+            if(currentCommand.size() == 1){
+                stop = (currentCommand.at(0) == "Exit");
+            }
+            else if(mode == "&&"){
+                return lastCmdWorked;
+            }
+            else if(mode == "||"){
+                return !lastCmdWorked;
+            }
+            else{
+                return true;
+            }
+        }
+        
+        void setStop(){
+            stop = true;
+        }
+        
+        template<typename T>
+        void pop_front(vector<T>& vec)
+        {
+            if(!vec.empty())
+                vec.erase(vec.begin());
         }
 };
 
 int main(){
-    
+    RshellManager shell;
+    return 0;
 }
