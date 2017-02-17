@@ -15,14 +15,14 @@ RshellExecuter::RshellExecuter(){}
 bool RshellExecuter::RunCommand(vector<string> Command){
 	pid_t pid;
 	int status;
-	bool Executed = true;
-
+	
 	//Convert Command into a char** args
-	char* p[Command.size()];
+	char* p[Command.size() + 1];
 	cout << Command.at(0);
 	for(int x = 0; x < Command.size(); x ++){
 		p[x] = const_cast<char*>(Command.at(x).c_str());
 	}
+	p[Command.size() + 1] = NULL;
 	char **args = p;
 
 	//Running the Command
@@ -30,12 +30,10 @@ bool RshellExecuter::RunCommand(vector<string> Command){
 	cout << pid << " ";
 	if(pid == -1){
 		perror("Fork");
-		Executed = false;
 		exit(0);
 	}
 	else if(pid == 0){
 		if(execvp(args[0], args) < 0){
-			Executed = false;
 			exit(0);
 		}
 		else{

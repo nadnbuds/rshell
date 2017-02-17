@@ -25,6 +25,7 @@ void RshellManager::Interpret(vector<string> Commands){
 	while(Commands.size() > 0){
 		if(Commands.at(0) == ";" || Commands.at(0) == "&&" || Commands.at(0) == "||"){
 			if(DetermineRun()){
+				Exit = (currentCommand.at(0) == "Exit");
 				lastCmdWorked = Executer.RunCommand(currentCommand);
 			}
 			mode = Commands.at(0);
@@ -35,16 +36,13 @@ void RshellManager::Interpret(vector<string> Commands){
 		pop_front(Commands);
 	}
 	if(DetermineRun()){
+		Exit = (currentCommand.at(0) == "Exit");
 		lastCmdWorked = Executer.RunCommand(currentCommand);
 	}
 }
 
 bool RshellManager::DetermineRun(){
-	if(currentCommand.size() == 1){
-		Exit = (currentCommand.at(0) == "Exit");
-		return true;
-	}
-	else if(mode == "&&"){
+	if(mode == "&&"){
 		return lastCmdWorked;
 	}
 	else if(mode == "||"){
