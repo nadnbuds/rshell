@@ -38,6 +38,9 @@ bool RshellExecuter::RunCommand(vector<string> Command){
 			Executed = false;
 			exit(0);
 		}
+		else{
+			exit(1);
+		}
 	}
 	else{
 		while(waitpid(-1, &status, 0) != pid){}

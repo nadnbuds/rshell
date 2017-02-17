@@ -42,6 +42,7 @@ void RshellManager::Interpret(vector<string> Commands){
 bool RshellManager::DetermineRun(){
 	if(currentCommand.size() == 1){
 		Exit = (currentCommand.at(0) == "Exit");
+		return true;
 	}
 	else if(mode == "&&"){
 		return lastCmdWorked;
