@@ -18,6 +18,7 @@ bool RshellExecuter::RunCommand(vector<string> Command){
 
 	//Convert Command into a char** args
 	char* p[Command.size()];
+	cout << Command.at(0);
 	for(int x = 0; x < Command.size(); x ++){
 		p[x] = const_cast<char*>(Command.at(x).c_str());
 	}
@@ -25,13 +26,13 @@ bool RshellExecuter::RunCommand(vector<string> Command){
 
 	//Running the Command
 	pid = fork();
-	cout << pid;
 	if(pid == -1){
 		perror("Fork");
 		exit(1);
 		return false;
 	}
 	else if(pid == 0){
+		cout << args[0];
 		if(execvp(args[0], args) < 0){
 			exit(1);
 			return false;

@@ -1,6 +1,7 @@
 #ifndef RSHELLEXECUTER_H
 #define RSHELLEXECUTER_H
 #include <vector>
+#include <string>
 
 using namespace std;
 

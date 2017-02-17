@@ -2,6 +2,8 @@
 #define RSHELLMANAGER_H
 #include <vector>
 #include <string>
+#include "RshellReader.h"
+#include "RshellExecuter.h"
 
 using namespace std;
 
