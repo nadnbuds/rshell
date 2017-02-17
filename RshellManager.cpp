@@ -16,6 +16,7 @@ void RshellManager::RunShell(){
 	while(!Exit){
 		Reader.ReadLine();
 		Interpret(Reader.Commands);
+		mode = ";";
 	}
 }
 
@@ -23,17 +24,19 @@ void RshellManager::Interpret(vector<string> Commands){
 	currentCommand.clear();
 	while(Commands.size() > 0){
 		if(Commands.at(0) == ";" || Commands.at(0) == "&&" || Commands.at(0) == "||"){
-			mode = Commands.at(0);
-			if(DetermineRun())
+			if(DetermineRun()){
 				lastCmdWorked = Executer.RunCommand(currentCommand);
+			}
+			mode = Commands.at(0);
 			pop_front(Commands);
 			currentCommand.clear();
 		}
 		currentCommand.push_back(Commands.at(0));
 		pop_front(Commands);
 	}
-	if(DetermineRun())
+	if(DetermineRun()){
 		lastCmdWorked = Executer.RunCommand(currentCommand);
+	}
 }
 
 bool RshellManager::DetermineRun(){

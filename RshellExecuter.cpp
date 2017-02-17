@@ -15,6 +15,7 @@ RshellExecuter::RshellExecuter(){}
 bool RshellExecuter::RunCommand(vector<string> Command){
 	pid_t pid;
 	int status;
+	bool Executed = true;
 
 	//Convert Command into a char** args
 	char* p[Command.size()];
@@ -26,21 +27,21 @@ bool RshellExecuter::RunCommand(vector<string> Command){
 
 	//Running the Command
 	pid = fork();
+	cout << pid << " ";
 	if(pid == -1){
 		perror("Fork");
-		exit(1);
-		return false;
+		Executed = false;
+		exit(0);
 	}
 	else if(pid == 0){
-		cout << args[0];
 		if(execvp(args[0], args) < 0){
-			exit(1);
-			return false;
+			Executed = false;
+			exit(0);
 		}
 	}
 	else{
-		while(wait(&status) != pid){}
-
+		while(waitpid(-1, &status, 0) != pid){}
+		return WEXITSTATUS(status);
 	}
 }
 
