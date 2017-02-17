@@ -12,7 +12,7 @@ class RshellManager {
 		void RunShell();		
 
 	private:
-		bool stop = false;
+		bool Exit;
 		bool lastCmdWorked;
 		string mode;
 		RshellReader Reader;
@@ -21,7 +21,7 @@ class RshellManager {
 		
 		void Interpret(vector<string> Commands);
 		bool DetermineRun();
-		void setStop();
+		void setExit();
 		template <typename T> void pop_front(vector<T>& vec);
 
 };

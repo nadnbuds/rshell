@@ -8,11 +8,12 @@
 using namespace std;
 
 RshellManager::RshellManager(){
+	Exit = false;
 	RunShell();	
 }
 
 void RshellManager::RunShell(){
-	while(!stop){
+	while(!Exit){
 		Reader.ReadLine();
 		Interpret(Reader.Commands);
 	}
@@ -37,7 +38,7 @@ void RshellManager::Interpret(vector<string> Commands){
 
 bool RshellManager::DetermineRun(){
 	if(currentCommand.size() == 1){
-		stop = (currentCommand.at(0) == "Exit");
+		Exit = (currentCommand.at(0) == "Exit");
 	}
 	else if(mode == "&&"){
 		return lastCmdWorked;
@@ -50,8 +51,8 @@ bool RshellManager::DetermineRun(){
 	}
 }
 
-void RshellManager::setStop(){
-	stop = true;
+void RshellManager::setExit(){
+	Exit = true;
 }
 
 	template<typename T>
