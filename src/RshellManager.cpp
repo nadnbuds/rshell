@@ -63,6 +63,9 @@ void RshellManager::setExit(){
 void RshellManager::pop_front(vector<T>& vec)
 {
 	if(!vec.empty())
-		vec.erase(vec.begin());
+		for(int x = 0; x < vec.size()-1; x++){
+			vec.at(x) = vec.at(x+1);
+		}
+		vec.pop_back();
 }
 
