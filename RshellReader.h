@@ -1,43 +1,25 @@
-#include <iostream>
+#ifndef RSHELLREADER_H
+#define RSHELLREADER_H
 #include <string>
 #include <vector>
 
 using namespace std;
 
 class RshellReader{
-    
+     
     private:
-        string line;
+        string Input;
         static const char spaceCheck = ' ';
         static const char semiCheck = ';';
-        vector<string> Commands;
-    public:
+        static const char hashCheck = '#';
 
-    void ReadLine(){
-            cout << "Rshell$ ";
-            cin >> line;
-            SpliceLine(line);
-    }
+    public:
+    	vector<string> Commands;
+
+    	void ReadLine();  
+    	void SpliceLine();
     
-    void SpliceLine(string line){
-        for(unsigned x = 0; x < line.length(); x++){
-            if(line.at(0) == spaceCheck){
-                string temp = line.substr(0, x-1);
-                //Add a bound measure incase this goes over line.length() - 1
-                if(line.at(0 == spaceCheck)){
-                    line = line.substr(x+1);
-                }
-                else{
-                    line = line.substr(x);
-                }
-                x = 0;
-                Commands.push_back(temp);
-            }
-        }
-    }
-    
-    vector<string> GetInputCommands(){
-        return Commands;
-    }
     
 };
+
+#endif
