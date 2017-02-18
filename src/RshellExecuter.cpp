@@ -21,7 +21,7 @@ bool RshellExecuter::RunCommand(vector<string> Command){
 	}
 	p[Command.size()] = NULL;
 	value = Execute(p);
-	for (i = 0; i < Command.size(); i++)
+	for (int i = 0; i < Command.size(); i++)
 	{
    	 	delete [] p[i];
 	}
