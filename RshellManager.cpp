@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<map>
+#include <stdio.h>
 #include "RshellReader.h"
 #include "RshellExecuter.h"
 #include "RshellManager.h"
@@ -25,18 +26,19 @@ void RshellManager::Interpret(vector<string> Commands){
 	while(Commands.size() > 0){
 		if(Commands.at(0) == ";" || Commands.at(0) == "&&" || Commands.at(0) == "||"){
 			if(DetermineRun()){
-				Exit = (currentCommand.at(0) == "Exit");
+				Exit = (currentCommand.at(0) == "exit");
 				lastCmdWorked = Executer.RunCommand(currentCommand);
 			}
 			mode = Commands.at(0);
 			pop_front(Commands);
 			currentCommand.clear();
+
 		}
 		currentCommand.push_back(Commands.at(0));
 		pop_front(Commands);
 	}
 	if(DetermineRun()){
-		Exit = (currentCommand.at(0) == "Exit");
+		Exit = (currentCommand.at(0) == "exit");
 		lastCmdWorked = Executer.RunCommand(currentCommand);
 	}
 }

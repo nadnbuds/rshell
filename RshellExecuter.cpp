@@ -17,11 +17,11 @@ bool RshellExecuter::RunCommand(vector<string> Command){
 	int status;
 	
 	//Convert Command into a char** args
-	char* p[Command.size() + 1];
+	char* p[Command.size()];
 	for(int x = 0; x < Command.size(); x ++){
 		p[x] = const_cast<char*>(Command.at(x).c_str());
 	}
-	p[Command.size() + 1] = NULL;
+	p[Command.size()] = NULL;
 	char **args = p;
 
 	//Running the Command

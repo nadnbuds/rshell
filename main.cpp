@@ -8,7 +8,5 @@ using namespace std;
 
 int main() {
 	RshellManager rshell;
-	cout << "running";
-	cout << "stopping";
 	return 0;
 }
