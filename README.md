@@ -20,4 +20,6 @@ Cs100 Assignment by Lorenzo Alamillo and Jerry Zhu
 * Only a comment is passed in
 * Only && or || is passed in
 
-**rshell** currently do not have the ability to handle incorrect inputs and prompt the user to enter a correct input.
+**rshell** currently do not have the ability to handle incorrect inputs and prompt the user to enter a correct input. 
+
+When running **rshell** with the bash scripts that tests the program, the script input does **NOT** show up when u run the script
