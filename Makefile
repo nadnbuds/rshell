@@ -2,4 +2,4 @@ CC= g++
 CFLAGS = -Wall -Werror -ansi -pedantic
 all:
 	mkdir -p ./bin
-	$(CC) $(CFLAGS) ./src/main.cpp -o ./bin/rshell
+	$(CC) $(CFLAGS) RshellExecuter.cpp RshellReader.cpp RshellManager.cpp main.cpp
