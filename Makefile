@@ -1,5 +1,7 @@
-CC= g++
-CFLAGS = -Wall -Werror -ansi -pedantic
+COMPILE = g++
+FLAGS = -Wall -Werror -ansi -pedantic
+
 all:
-	mkdir -p ./bin
-	$(CC) $(CFLAGS) RshellExecuter.cpp RshellReader.cpp RshellManager.cpp main.cpp
+	rm -rf bin
+	mkdir -p bin
+	$(COMPILE) $(FLAGS) ./src/rshell.cpp -o ./bin/rshell
