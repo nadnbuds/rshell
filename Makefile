@@ -2,6 +2,7 @@ C = g++
 FLAGS = -Wall -Werror -ansi -pedantic
 
 all:
+	rm -rf ./bin
 	mkdir -p ./bin
 	g++ -Wall -Werror -ansi -pedantic ./src/main.cpp ./src/RshellReader.cpp ./src/RshellExecuter.cpp ./src/RshellManager.cpp -o ./bin/rshell
 
