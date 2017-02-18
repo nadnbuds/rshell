@@ -1,11 +1,17 @@
 #include <iostream>
 #include <string>
+#include <unistd.h>
 #include <vector>
 #include "RshellReader.h"
 
 using namespace std;
+RshellReader::RshellReader() {
+	gethostname(hostname, 40);
+	getlogin_r(username, 40);
+}
+
 void RshellReader::ReadLine(){
-	cout << "Rshell$ ";
+	cout << username << "@" << hostname << "$ ";
 	Commands.clear();
 	getline(cin, Input);
 	SpliceLine();
