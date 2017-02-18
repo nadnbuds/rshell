@@ -15,6 +15,9 @@ Cs100 Assignment by Lorenzo Alamillo and Jerry Zhu
       succeeds
       
 ### Bugs
-**rshell** will return an error when only a comment is passed in, it will also return an error with incorrect syntax such as:
-* When there is no command before/after a connector
-* 
+**rshell** will return an error when:
+* There is no command before/after a connector
+* Only a comment is passed in
+* Only && or || is passed in
+
+**rshell** currently do not have the ability to handle incorrect inputs and prompt the user to enter a correct input.
