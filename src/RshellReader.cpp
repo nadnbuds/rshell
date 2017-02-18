@@ -11,7 +11,7 @@ RshellReader::RshellReader() {
 }
 
 void RshellReader::ReadLine(){
-	cout << "Rshell$ ";
+	cout << username << "@" << hostname << "$ ";
 	Commands.clear();
 	getline(cin, Input);
 	SpliceLine();
