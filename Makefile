@@ -1,7 +1,11 @@
 COMPILE = g++
 FLAGS = -Wall -Werror -ansi -pedantic
 
-all:
+all.o:
+	rm -rf bin
+	mkdir -p bin
+	$(COMPILE) $(FLAGS) ./src/main.cpp -o ./bin/rshell
+rshell.o:
 	rm -rf bin
 	mkdir -p bin
 	$(COMPILE) $(FLAGS) ./src/main.cpp -o ./bin/rshell
