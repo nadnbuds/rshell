@@ -13,14 +13,16 @@ using namespace std;
 RshellExecuter::RshellExecuter(){}
 
 bool RshellExecuter::RunCommand(vector<string> Command){
-	
+	bool value = false;
 	//Convert Command into a char** args
 	char** p = new char*[Command.size()];
 	for(unsigned x = 0; x < Command.size(); x ++){
 		p[x] = const_cast<char*>(Command.at(x).c_str());
 	}
 	p[Command.size()] = NULL;
-	return Execute(p);
+	value = Execute(p);
+	delete [] p;
+	return value;
 
 	
 }
