@@ -3,7 +3,7 @@ FLAGS = -Wall -Werror -ansi -pedantic
 
 all:
 	mkdir -p ./bin
-	$(C) $(FLAGS) ./src/main.cpp -o ./bin/rshell
+	g++ -Wall -Werror -ansi -pedantic ./src/main.cpp -o ./bin/rshell
 	$(C) $(FLAGS) ./src/RshellReader.cpp -o ./bin/RshellReader
 	$(C) $(FLAGS) ./src/RshellExecuter.cpp -o ./bin/RshellExecuter
 	$(C) $(FLAGS) ./src/RshellManager.cpp -o ./bin/RshellManager
