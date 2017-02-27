@@ -1,0 +1,3 @@
+NotEcho && exit
+echo c || exit
+exit

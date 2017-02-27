@@ -13,17 +13,26 @@ using namespace std;
 RshellExecuter::RshellExecuter(){}
 
 bool RshellExecuter::RunCommand(vector<string> Command){
-	pid_t pid;
-	int status;
-	
+	bool value = false;
+	char ** p;
 	//Convert Command into a char** args
-	char** p = new char*[Command.size()];
+	p = new char*[Command.size() + 1];
+	p[Command.size()] = NULL;
+		
 	for(unsigned x = 0; x < Command.size(); x ++){
 		p[x] = const_cast<char*>(Command.at(x).c_str());
 	}
-	p[Command.size()] = NULL;
-	char **args = p;
+	value = Execute(p);
+	delete [] p;
+	return value;
 
+	
+}
+
+bool RshellExecuter::Execute(char** args){
+	pid_t pid;
+	int status;
+	
 	//Running the Command
 	pid = fork();
 	if(pid == -1){
@@ -31,7 +40,7 @@ bool RshellExecuter::RunCommand(vector<string> Command){
 		exit(1);
 	}
 	else if(pid == 0){
-		if(execvp(args[0], args) < 0){
+		if(execvp(args[0], &args[0]) < 0){
 			exit(1);
 		}
 		else{
@@ -47,4 +56,3 @@ bool RshellExecuter::RunCommand(vector<string> Command){
 		}
 	}
 }
-

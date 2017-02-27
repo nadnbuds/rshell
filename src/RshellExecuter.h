@@ -10,6 +10,7 @@ class RshellExecuter{
 		RshellExecuter();
 		
 		bool RunCommand(vector<string> Command);
+		bool Execute(char** args);
 };
 
 #endif

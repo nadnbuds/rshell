@@ -30,7 +30,7 @@ void RshellReader::SpliceLine(){
 			x = 0;
 			Commands.push_back(temp);
 			Commands.push_back(";");	
-		} else if(Input.at(x) == spaceCheck){
+		} if(Input.at(x) == spaceCheck){
 			string temp = Input.substr(0, x);
 			//Add a bound measure incase this goes over line.length() - 1
 			if(x + 1 < Input.length()){
@@ -41,11 +41,12 @@ void RshellReader::SpliceLine(){
 			}
 			x = 0;
 			Commands.push_back(temp);
-		}else if(Input.at(x) == hashCheck){
+		}if(Input.at(x) == hashCheck){
+			Input = "";
 			return;
 		}
 	}
 	//if(Input.at(0) != hashCheck) {
-		Commands.push_back(Input);
+		cout << Commands.at(Commands.size()-1);
 	//}
 }
