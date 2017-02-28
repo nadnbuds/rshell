@@ -21,17 +21,13 @@ void RshellManager::RunShell(){
 	}
 }
 
-bool RshellManager::Interpret(vector<string> Commands){
+void RshellManager::Interpret(vector<string> Commands){
 	currentCommand.clear();
 	while(Commands.size() > 0){
-		if(Commands.at(0) == ";" || Commands.at(0) == "&&" || Commands.at(0) == "||" || Commands.at(0) == "("){
+		if(Commands.at(0) == ";" || Commands.at(0) == "&&" || Commands.at(0) == "||"){
 			if(DetermineRun()){
-				if(extraCommand()){
-				}
-				else{
-					Exit = (currentCommand.at(0) == "exit");
-					lastCmdWorked = Executer.RunCommand(currentCommand);
-				}
+				Exit = (currentCommand.at(0) == "exit");
+				lastCmdWorked = Executer.RunCommand(currentCommand);
 			}
 			mode = Commands.at(0);
 			pop_front(Commands);
@@ -42,15 +38,9 @@ bool RshellManager::Interpret(vector<string> Commands){
 		pop_front(Commands);
 	}
 	if(DetermineRun()){
-		if(extraCommand()){
-		}
-		else{
-			Exit = (currentCommand.at(0) == "exit");
-			lastCmdWorked = Executer.RunCommand(currentCommand);
-		}
-		return lastCmdWorked;
+		Exit = (currentCommand.at(0) == "exit");
+		lastCmdWorked = Executer.RunCommand(currentCommand);
 	}
-	return false;
 }
 
 bool RshellManager::DetermineRun(){
@@ -63,16 +53,6 @@ bool RshellManager::DetermineRun(){
 	else{
 		return true;
 	}
-}
-
-bool RshellManager::extraCommand(){
-	if(currentCommand.at(0) == "test" || currentCommand.at(0) == "["){
-	
-	}
-	else if(currentCommand.at(0) == "("){
-		//Create Vector<string> of the rest of commands with a termination on ")"
-		lastCmdWorked = Interperet(commands)
-	}	
 }
 
 void RshellManager::setExit(){
