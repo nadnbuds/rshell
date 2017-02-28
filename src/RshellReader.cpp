@@ -47,6 +47,6 @@ void RshellReader::SpliceLine(){
 		}
 	}
 	//if(Input.at(0) != hashCheck) {
-		cout << Commands.at(Commands.size()-1);
+		Commands.push_back(Input);
 	//}
 }
