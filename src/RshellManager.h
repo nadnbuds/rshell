@@ -21,9 +21,8 @@ class RshellManager {
 		RshellExecuter Executer;
 		vector<string> currentCommand;
 		
-		bool Interpret(vector<string> Commands);
+		void Interpret(vector<string> Commands);
 		bool DetermineRun();
-		bool extraCommands();
 		void setExit();
 		template <typename T> void pop_front(vector<T>& vec);
 
