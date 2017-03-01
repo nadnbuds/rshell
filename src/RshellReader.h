@@ -13,9 +13,11 @@ class RshellReader{
         static const char spaceCheck = ' ';
         static const char semiCheck = ';';
         static const char hashCheck = '#';
+		static const char ParCheck1 = '(';
+		static const char ParCheck2 = ')';
 
     public:
-    	vector<string> Commands;
+    vector<string> Commands;
 	char hostname[40];
 	char username[40];
 	RshellReader();
