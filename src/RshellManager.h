@@ -23,7 +23,6 @@ class RshellManager {
 		
 		bool Interpret(vector<string> Commands);
 		void Parse(vector<vector<string> > Que);
-		bool DetermineRun();
 		bool CheckNew(string Command);
 		template <typename T> void pop_front(vector<T>& vec);
 

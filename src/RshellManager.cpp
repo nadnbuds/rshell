@@ -82,6 +82,7 @@ bool RshellManager::Interpret(vector<string> Commands){
 	return lastCmdWorked;
 }
 
+//Actually runs the Commands
 void RshellManager::Parse(vector<vector<string> > Que) {
 	unsigned index;
 	/* Test to check the commands being input
@@ -107,6 +108,9 @@ void RshellManager::Parse(vector<vector<string> > Que) {
 			struct stat buf; //buf from stat.h
 			bool e = false; //checks if file exists <- used for -e flag
 			//checking flags to run the test correctly, if no flag is provided the we will assume it is -e
+			if (Que.at(index).at(0) == "[") {
+				Que.at(index).pop_back();
+			}
 			if(Que.at(index).at(1) == "-e") {
 				flag = "-e";
 				p = Que.at(index).at(2);
@@ -171,24 +175,14 @@ void RshellManager::Parse(vector<vector<string> > Que) {
 			pop_front(Que.at(index));
 			Que.at(index).pop_back();
 			lastCmdWorked = Interpret(Que.at(index));
-		} else {
+		} 
+		else {
 			lastCmdWorked = Executer.RunCommand(Que.at(index));
 		}
 	}
 }
 
-bool RshellManager::DetermineRun(){
-	if(mode == "&&"){
-		return lastCmdWorked;
-	}
-	else if(mode == "||"){
-		return !lastCmdWorked;
-	}
-	else{
-		return true;
-	}
-}
-
+//Checks if a new Command is being input
 bool RshellManager::CheckNew(string Command) {
 	if (Command == ";") {
 		return true;
@@ -203,9 +197,6 @@ bool RshellManager::CheckNew(string Command) {
 		return true;
 	}
 	else if (Command == "||") {
-		return true;
-	}
-	else if (Command == "[" || Command == "]") {
 		return true;
 	}
 	else {
