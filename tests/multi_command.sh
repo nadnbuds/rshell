@@ -1,3 +1,3 @@
 #!/bin/sh
 
-./bin/rshell < multi_cmd
+../bin/rshell < multi_cmd

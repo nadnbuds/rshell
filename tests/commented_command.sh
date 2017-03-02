@@ -1,3 +1,3 @@
 #!/bin/sh
 
-./bin/rshell < commented_cmd
+../bin/rshell < commented_cmd
