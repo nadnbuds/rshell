@@ -5,6 +5,9 @@
 #include "RshellReader.h"
 #include "RshellExecuter.h"
 #include "RshellManager.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 using namespace std;
 
@@ -82,14 +85,14 @@ bool RshellManager::Interpret(vector<string> Commands){
 void RshellManager::Parse(vector<vector<string> > Que) {
 	unsigned index;
 	/* Test to check the commands being input
-	cout << Que.size() << endl;
-	for (unsigned x = 0; x < Que.size(); x++) {
-		for (unsigned y = 0; y < Que.at(x).size(); y++) {
-			cout << Que.at(x).at(y) << ", ";
-		}
-		cout << endl;
-	} */
-	
+	   cout << Que.size() << endl;
+	   for (unsigned x = 0; x < Que.size(); x++) {
+	   for (unsigned y = 0; y < Que.at(x).size(); y++) {
+	   cout << Que.at(x).at(y) << ", ";
+	   }
+	   cout << endl;
+	   } */
+
 	for (index = 0; index < Que.size(); index++) {
 		//cout << index << endl;
 		//Check if special command
@@ -99,6 +102,54 @@ void RshellManager::Parse(vector<vector<string> > Que) {
 		}
 		else if(Que.at(index).at(0) == "test" || Que.at(index).at(0) == "[") {
 			//Implement test function here
+			string flag; //stores flag
+			string p; //file path
+			struct stat buf; //buf from stat.h
+			bool e = false; //checks if file exists <- used for -e flag
+			//checking flags to run the test correctly, if no flag is provided the we will assume it is -e
+			if(Que.at(index).at(1) == "-e") {
+				flag = "-e";
+				p = Que.at(index).at(2);
+			} else if (Que.at(index).at(1) == "-f") {
+				flag = "-f";
+				p = Que.at(index).at(2);
+			} else if (Que.at(index).at(1) == "-d") {
+				flag = "-d";
+				p = Que.at(index).at(2);
+			} else {
+				flag = "-e";
+				p = Que.at(index).at(1);
+			}
+			int stattest = stat(p.c_str(), &buf); //stattest stores the result of stat() 0 = success, -1 = fail/error
+			//checks if the file/directory exists
+			if(stattest == 0) {
+				e = true;
+			} else {
+				perror("stat");
+				lastCmdWorked = false;
+				break;
+			}
+			
+			if(flag == "-e") { //this will return true because we checked existence above
+				cout << "(True)" << endl;
+				lastCmdWorked = e;				
+			} else if (flag == "-f") { //this checks if it is a regular file
+				if(S_ISREG(buf.st_mode)) { //S_ISREG() function checks if it is a regular file using st_mode
+					cout << "(true)" << endl;
+					lastCmdWorked = true;
+				} else {
+					cout << "(false)" << endl;
+					lastCmdWorked =  false;
+				}
+			} else if (flag == "-d") { //this checks if it is a directory
+				if(S_ISDIR(buf.st_mode)) { //S_ISDIR checks for a directory using st_mode
+					cout << "(true)" << endl;
+					lastCmdWorked = true;
+				} else {
+					cout << "(false)" << endl;
+					lastCmdWorked = false;
+				}
+			}
 		}
 		else if (Que.at(index).at(0) == "&&") {
 			if (!lastCmdWorked) {
@@ -120,8 +171,7 @@ void RshellManager::Parse(vector<vector<string> > Que) {
 			pop_front(Que.at(index));
 			Que.at(index).pop_back();
 			lastCmdWorked = Interpret(Que.at(index));
-		}
-		else {
+		} else {
 			lastCmdWorked = Executer.RunCommand(Que.at(index));
 		}
 	}
@@ -155,6 +205,9 @@ bool RshellManager::CheckNew(string Command) {
 	else if (Command == "||") {
 		return true;
 	}
+	else if (Command == "[" || Command == "]") {
+		return true;
+	}
 	else {
 		return false;
 	}
@@ -162,13 +215,13 @@ bool RshellManager::CheckNew(string Command) {
 
 
 
-template<typename T>
+	template<typename T>
 void RshellManager::pop_front(vector<T>& vec)
 {
 	if(!vec.empty())
 		for(unsigned x = 0; x < vec.size()-1; x++){
 			vec.at(x) = vec.at(x+1);
 		}
-		vec.pop_back();
+	vec.pop_back();
 }
 
