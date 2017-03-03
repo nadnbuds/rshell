@@ -18,7 +18,8 @@ void RshellReader::ReadLine(){
 }
 
 void RshellReader::SpliceLine(){
-	for(unsigned x = 0; x < Input.length(); x++){
+	unsigned x = 0;
+	while(x < Input.length()){
 		//Splices ; from the line
 		 if(Input.at(x) == semiCheck){
 			string temp = Input.substr(0,x);
@@ -36,7 +37,7 @@ void RshellReader::SpliceLine(){
 			x = 0;
 		}
 		 //Splices all Spaces
-		 if (Input.at(x) == spaceCheck) {
+		 else if (Input.at(x) == spaceCheck) {
 			 string temp = Input.substr(0, x);
 			 //Add a bound measure incase this goes over line.length() - 1
 			 if (x + 1 < Input.length()) {
@@ -51,7 +52,7 @@ void RshellReader::SpliceLine(){
 			 }
 		 }
 		//Splices ( from the line
-		if (Input.at(x) == ParCheck1) {
+		else if (Input.at(x) == ParCheck1) {
 			 string temp = Input.substr(0, x);
 			 if (temp.size() > 0) {
 				 Commands.push_back(temp);
@@ -67,7 +68,7 @@ void RshellReader::SpliceLine(){
 			 x = 0;
 		 }
 		//Splices ) from the line
-		if (Input.at(x) == ParCheck2) {
+		else if (Input.at(x) == ParCheck2) {
 			string temp = Input.substr(0, x);
 			if (temp.size() > 0) {
 				Commands.push_back(temp);
@@ -82,25 +83,13 @@ void RshellReader::SpliceLine(){
 			}
 			x = 0;
 		}
-		//Splices all Spaces again
-		if (Input.at(x) == spaceCheck) {
-			string temp = Input.substr(0, x);
-			//Add a bound measure incase this goes over line.length() - 1
-			if (x + 1 < Input.length()) {
-				Input = Input.substr(x + 1);
-			}
-			else {
-				Input = "&symbols&";
-			}
-			x = 0;
-			if (temp.size() > 0) {
-				Commands.push_back(temp);
-			}
-		}
 		//Comments
-		if(Input.at(x) == hashCheck){
+		else if(Input.at(x) == hashCheck){
 			Input = "";
 			return;
+		}
+		else {
+			x++;
 		}
 	}
 	//Final pushback
