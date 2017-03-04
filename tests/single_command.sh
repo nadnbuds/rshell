@@ -1,3 +1,3 @@
 #!/bin/sh
 
-./bin/rshell < single_cmd
+../bin/rshell < single_cmd

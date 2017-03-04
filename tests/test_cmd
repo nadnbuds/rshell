@@ -1,0 +1,12 @@
+mkdir pathtest
+test -d pathtest && echo directory exists
+touch file.cpp
+test -f file.cpp && echo file exists
+rm file.cpp
+rm -r pathtest
+test -d pathtest || echo directory does not exist
+test -f file.cpp || echo file does not exist
+test -e foo.h && echo fooexists
+[ -e foo.h ] && echo foo.h exists
+echo test complete
+exit

@@ -1,0 +1,10 @@
+(echo Hello World!)
+test -d src || (echo bad)
+(test Make && test make) && ls
+(test Make && test make) || echo good
+echo A || (echo B; echo C)
+((echo B))
+( echo A || (echo B; echo C) ) && echo D
+
+exit
+
