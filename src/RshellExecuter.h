@@ -9,8 +9,10 @@ class RshellExecuter{
 	public:
 		RshellExecuter();
 		
-		bool RunCommand(vector<string> Command);
-		bool Execute(char** args);
+		char** Convert(vector<string> Command);
+		string Pipe(vector<string> Command);
+		bool FileInput(vector<string> Command, string filename);
+		bool Execute(vector<string> Command);
 };
 
 #endif

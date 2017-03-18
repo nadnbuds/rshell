@@ -85,7 +85,7 @@ bool RshellManager::Interpret(vector<string> Commands){
 //Actually runs the Commands
 void RshellManager::Parse(vector<vector<string> > Que) {
 	unsigned index;
-	/* Test to check the commands being input
+	 /*//Test to check the commands being input
 	   cout << Que.size() << endl;
 	   for (unsigned x = 0; x < Que.size(); x++) {
 	   for (unsigned y = 0; y < Que.at(x).size(); y++) {
@@ -98,6 +98,7 @@ void RshellManager::Parse(vector<vector<string> > Que) {
 		//cout << index << endl;
 		//Check if special command
 		//Currently messy and all in this function b/c I have to alter index, looking for a work around
+
 		if(Que.at(index).at(0) == "exit"){
 			Exit = true;
 		}
@@ -130,6 +131,7 @@ void RshellManager::Parse(vector<vector<string> > Que) {
 				e = true;
 			} else {
 				perror("stat");
+				cout << "(False)" << endl;
 				lastCmdWorked = false;
 				break;
 			}
@@ -176,8 +178,20 @@ void RshellManager::Parse(vector<vector<string> > Que) {
 			Que.at(index).pop_back();
 			lastCmdWorked = Interpret(Que.at(index));
 		} 
+		else if (index < Que.size() - 1) {
+			if (Que.at(index + 1).at(0) == "|") {
+				string arg = Executer.Pipe(Que.at(index));
+				if (index < Que.size() - 2) {
+					Que.at(index + 2).push_back(arg);
+				}
+				index++;
+			}
+			else if (Que.at(index + 1).at(0) == ">") {
+				Executer.FileInput(Que.at(index), Que.at(index + 2).at(0));
+			}
+		}
 		else {
-			lastCmdWorked = Executer.RunCommand(Que.at(index));
+				lastCmdWorked = Executer.Execute(Que.at(index));
 		}
 	}
 }
@@ -197,6 +211,18 @@ bool RshellManager::CheckNew(string Command) {
 		return true;
 	}
 	else if (Command == "||") {
+		return true;
+	}
+	else if (Command == "<") {
+		return true;
+	}
+	else if (Command == ">") {
+		return true;
+	}
+	else if (Command == ">>") {
+		return true;
+	}
+	else if (Command == "|") {
 		return true;
 	}
 	else {
