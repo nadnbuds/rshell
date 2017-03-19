@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -10,26 +11,30 @@
 #include "RshellExecuter.h"
 using namespace std;
 
-RshellExecuter::RshellExecuter(){}
+RshellExecuter::RshellExecuter() {}
 
-char** RshellExecuter::Convert(vector<string> Command){
+int in = 0;
+
+char** RshellExecuter::Convert(vector<string> Command) {
 	char ** p;
 	//Convert Command into a char** args
 	p = new char*[Command.size() + 1];
 	p[Command.size()] = NULL;
-		
-	for(unsigned x = 0; x < Command.size(); x ++){
+
+	for (unsigned x = 0; x < Command.size(); x++) {
 		p[x] = const_cast<char*>(Command.at(x).c_str());
 	}
 	return p;
 }
 
+void RshellExecuter::WriteStdin(string input) {
+	write(STDIN_FILENO, input.c_str() + '\0', (int)input.size());
+}
+
 string RshellExecuter::Pipe(vector<string> Command) {
 	pid_t pid;
 	int status;
-	int MyPipe[2];
 	char Buffer[80];
-	int out = open("output.txt", O_RDWR | O_CREAT | O_APPEND, 0600);
 	char** args = Convert(Command);
 
 	//Running the Command
@@ -43,10 +48,10 @@ string RshellExecuter::Pipe(vector<string> Command) {
 	}
 	else if (pid == 0) {
 		//close(1);
-		close(MyPipe[0]);
 		dup2(MyPipe[1], STDOUT_FILENO);
-		close(out);
+		dup2(in, 0);
 		if (execvp(args[0], &args[0]) < 0) {
+			close(STDIN_FILENO);
 			exit(1);
 		}
 		else {
@@ -60,17 +65,22 @@ string RshellExecuter::Pipe(vector<string> Command) {
 			return "%Error%";
 		}
 		else {
-			read(MyPipe[0], Buffer, sizeof(Buffer));
+			in = MyPipe[0];
 			return Buffer;
 		}
 	}
 }
 
-bool RshellExecuter::FileInput(vector<string> Command, string filename) {
+bool RshellExecuter::FileInput(vector<string> Command, string filename, bool append) {
 	pid_t pid;
 	int status;
-	int MyPipe[2];
-	int out = open(filename.c_str(), O_RDWR | O_CREAT | O_APPEND, 0600);
+	int out;
+	if (append) {
+		out = open(filename.c_str(), O_RDWR | O_CREAT | O_APPEND, 0600);
+	}
+	else {
+		out = open(filename.c_str(), O_RDWR | O_CREAT, 0600);
+	}
 	char** args = Convert(Command);
 
 	//Running the Command
@@ -106,30 +116,33 @@ bool RshellExecuter::FileInput(vector<string> Command, string filename) {
 	}
 }
 
-bool RshellExecuter::Execute(vector<string> command){
+bool RshellExecuter::Execute(vector<string> command) {
 	pid_t pid;
 	int status;
 	char** args = Convert(command);
 	//Running the Command
 	pid = fork();
-	if(pid == -1){
+	if (pid == -1) {
 		perror("Fork");
 		exit(1);
 	}
-	else if(pid == 0){
+	else if (pid == 0) {
 		//close(1);
-		if(execvp(args[0], &args[0]) < 0){
+		dup2(in, 0);
+		if (execvp(args[0], &args[0]) < 0) {
+			close(STDIN_FILENO);
 			exit(1);
 		}
-		else{
+		else {
 			exit(0);
 		}
 	}
-	else{
-		while(waitpid(-1, &status, 0) != pid){}
-		if(WEXITSTATUS(status) == 1)
+	else {
+		while (waitpid(-1, &status, 0) != pid) {}
+		in = 0;
+		if (WEXITSTATUS(status) == 1)
 			return false;
-		else{
+		else {
 			return true;
 		}
 	}

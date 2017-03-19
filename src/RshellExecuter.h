@@ -5,14 +5,18 @@
 
 using namespace std;
 
-class RshellExecuter{
-	public:
-		RshellExecuter();
-		
-		char** Convert(vector<string> Command);
-		string Pipe(vector<string> Command);
-		bool FileInput(vector<string> Command, string filename);
-		bool Execute(vector<string> Command);
+class RshellExecuter {
+public:
+	RshellExecuter();
+
+	char** Convert(vector<string> Command);
+	void WriteStdin(string input);
+	string Pipe(vector<string> Command);
+	bool FileInput(vector<string> Command, string filename, bool append);
+	bool Execute(vector<string> Command);
+
+private:
+	int in, MyPipe[2];
 };
 
 #endif
