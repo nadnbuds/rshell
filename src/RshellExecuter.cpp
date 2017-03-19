@@ -28,9 +28,9 @@ char** RshellExecuter::Convert(vector<string> Command) {
 }
 
 void RshellExecuter::WriteStdin(string input) {
-	pid_t pid;
-	int status;
-	in = open(filename.c_str(), O_RDONLY);
+	//pid_t pid;
+	//int status;
+	in = open(input.c_str(), O_RDONLY);
 }
 
 string RshellExecuter::Pipe(vector<string> Command) {
@@ -74,8 +74,8 @@ string RshellExecuter::Pipe(vector<string> Command) {
 }
 
 void RshellExecuter::FileOutput(string filename) {
-	pid_t pid;
-	int status;
+	//pid_t pid;
+	//int status;
 	in = open(filename.c_str(), O_RDONLY);
 }
 

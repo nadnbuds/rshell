@@ -1,0 +1,5 @@
+ls >> test_output1
+pwd >> test_output2
+echo this file used to have something else >> test_output1
+cat < test_output1 >> test_output2
+exit
