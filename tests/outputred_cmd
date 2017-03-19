@@ -1,0 +1,5 @@
+ls > test_output1
+echo hello world > test_output2
+rm test_output1
+rm test_output2
+exit

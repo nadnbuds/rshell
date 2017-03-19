@@ -195,7 +195,7 @@ void RshellManager::Parse(vector<vector<string> > Que) {
 				index++;
 			}
 			else if (Que.at(index + 1).at(0) == "<") {
-				//Executer.FileOutput(Que.at(index), Que.at(index + 2).at(0));
+				Executer.FileOutput(Que.at(index), Que.at(index + 2).at(0));
 			}
 			else if (Que.at(index + 1).at(0) == ">") {
 				Executer.FileInput(Que.at(index), Que.at(index + 2).at(0), false);
