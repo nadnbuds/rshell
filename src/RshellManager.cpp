@@ -189,19 +189,19 @@ void RshellManager::Parse(vector<vector<string> > Que) {
 		else if (index < Que.size() - 1) {
 			if (Que.at(index + 1).at(0) == "|") {
 				string arg = Executer.Pipe(Que.at(index));
-				if (index < Que.size() - 2) {
-					//Executer.WriteStdin(arg);
-				}
 				index++;
 			}
-			else if (Que.at(index + 1).at(0) == "<") {
-				Executer.FileOutput(Que.at(index), Que.at(index + 2).at(0));
-			}
-			else if (Que.at(index + 1).at(0) == ">") {
-				Executer.FileInput(Que.at(index), Que.at(index + 2).at(0), false);
-			}
-			else if (Que.at(index + 1).at(0) == ">>") {
-				Executer.FileInput(Que.at(index), Que.at(index + 2).at(0), true);
+			else if (index < Que.size() - 2) {
+				if (Que.at(index + 1).at(0) == "<") {
+					Executer.FileOutput(Que.at(index + 2).at(0));
+					Que.at(index + 2) = Que.at(index);
+				}
+				else if (Que.at(index + 1).at(0) == ">") {
+					Executer.FileInput(Que.at(index), Que.at(index + 2).at(0), false);
+				}
+				else if (Que.at(index + 1).at(0) == ">>") {
+					Executer.FileInput(Que.at(index), Que.at(index + 2).at(0), true);
+				}
 			}
 		}
 		else {

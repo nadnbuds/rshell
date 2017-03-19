@@ -13,7 +13,7 @@ public:
 	void WriteStdin(string input);
 	string Pipe(vector<string> Command);
 	bool FileInput(vector<string> Command, string filename, bool append);
-	bool FileOutput(vector<string> Command, string filename);
+	void FileOutput(string filename);
 	bool Execute(vector<string> Command);
 
 private:

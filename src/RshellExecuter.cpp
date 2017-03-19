@@ -28,7 +28,9 @@ char** RshellExecuter::Convert(vector<string> Command) {
 }
 
 void RshellExecuter::WriteStdin(string input) {
-	write(STDIN_FILENO, input.c_str() + '\0', (int)input.size());
+	pid_t pid;
+	int status;
+	in = open(filename.c_str(), O_RDONLY);
 }
 
 string RshellExecuter::Pipe(vector<string> Command) {
@@ -71,37 +73,10 @@ string RshellExecuter::Pipe(vector<string> Command) {
 	}
 }
 
-bool RshellExecuter::FileOutput(vector<string> Command, string filename) {
+void RshellExecuter::FileOutput(string filename) {
 	pid_t pid;
 	int status;
 	in = open(filename.c_str(), O_RDONLY);
-	char** args = Convert(Command);
-
-	if (pipe(MyPipe) == -1) {
-		perror("Pipe");
-	}
-	pid = fork();
-	if (pid == -1) {
-		perror("Fork");
-		exit(1);
-	} else if (pid == 0) {
-		close(MyPipe[0]);
-		dup2(in, STDIN_FILENO);
-		close(in);
-		if (execvp(args[0], &args[0]) < 0) {
-			exit(1);
-		} else {
-                        exit(0);
-		}
-        } else {
-                close(MyPipe[1]);
-                while (waitpid(-1, &status, 0) != pid) {}
-                if (WEXITSTATUS(status) == 1) {
-                        return false;
-                } else {
-                        return true;
-                }
-        }
 }
 
 bool RshellExecuter::FileInput(vector<string> Command, string filename, bool append) {
