@@ -193,17 +193,21 @@ void RshellManager::Parse(vector<vector<string> > Que) {
 			}
 			else if (index < Que.size() - 2) {
 				if (Que.at(index + 1).at(0) == "<") {
-					Executer.FileOutput(Que.at(index + 2).at(0));
-					Que.at(index + 2) = Que.at(index);
-					index++;
+					if (Executer.FileOutput(Que.at(index + 2).at(0))) {
+						Que.at(index + 2) = Que.at(index);
+						index++;
+					}
+					else {
+						index += 2;
+					}
 				}
 				else if (Que.at(index + 1).at(0) == ">") {
 					Executer.FileInput(Que.at(index), Que.at(index + 2).at(0), false);
-					index += 2;
+					index++;
 				}
 				else if (Que.at(index + 1).at(0) == ">>") {
 					Executer.FileInput(Que.at(index), Que.at(index + 2).at(0), true);
-					index += 2;
+					index++;
 				}
 			}
 		}
