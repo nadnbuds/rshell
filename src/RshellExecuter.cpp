@@ -28,12 +28,7 @@ char** RshellExecuter::Convert(vector<string> Command) {
 }
 
 void RshellExecuter::WriteStdin(string input) {
-<<<<<<< HEAD
-	//pid_t pid;
-	//int status;
-	in = open(input.c_str(), O_RDONLY);
-=======
->>>>>>> 614512fa31ac29c0bdceb1f8c9b6f0bec779f388
+
 }
 
 string RshellExecuter::Pipe(vector<string> Command) {
@@ -76,12 +71,7 @@ string RshellExecuter::Pipe(vector<string> Command) {
 	}
 }
 
-<<<<<<< HEAD
-void RshellExecuter::FileOutput(string filename) {
-	//pid_t pid;
-	//int status;
-	in = open(filename.c_str(), O_RDONLY);
-=======
+
 bool RshellExecuter::FileOutput(string filename) {
 	FILE* file = fopen(filename.c_str(), "r");
 	if (file) {
@@ -92,7 +82,6 @@ bool RshellExecuter::FileOutput(string filename) {
 	else {
 		return false;
 	}
->>>>>>> 614512fa31ac29c0bdceb1f8c9b6f0bec779f388
 }
 
 bool RshellExecuter::FileInput(vector<string> Command, string filename, bool append) {

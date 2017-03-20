@@ -2,7 +2,6 @@ ls | cat
 ls -l | wc
 ls | wc
 echo this is a piping test | wc
-cat < test_inputfile | wc > test_output1
+cat < test_inputfile | wc > test_output4
 pwd | wc
-rm test_output1
 exit

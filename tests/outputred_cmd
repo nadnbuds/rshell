@@ -3,7 +3,4 @@ echo hello world > test_output2
 pwd > test_output3
 echo adding a second line to test_output2 > test_output2
 cat < test_output1 > test_output2
-rm test_output1
-rm test_output2
-rm test_output3
 exit

@@ -4,5 +4,4 @@ wc < test_inputfile
 tr a-g A-G < test_inputfile
 tr 1-3 4-6 < test_inputfile
 cat < test_inputfile > test_outputfile
-rm test_outputfile
 exit
